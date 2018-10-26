@@ -16,13 +16,11 @@
 #  Command full example : 
 #    ~$ ./artifact-transfer.sh team-pfdev2-releases 
 #
-#   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! THIS SCRIPT IS UNDER CONSTRUCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-#
 #############################
 # DEFINE SERVER INFO
 #############################
-TARGETSVR=http://192.168.56.101:8081
-SOURCESVR=http://nexus.compnay.com 
+TARGETSVR=http://192.168.56.101:8081 #wnd2http://nexus.skplanet.com
+SOURCESVR=http://nexus.skplanet.com #http://mvn.skplanet.com
 repoName=$1
 
 
@@ -30,9 +28,9 @@ repoName=$1
 # GET ARTIFACT PATH TO DOWNLOAD
 #################################
 
-curl -X GET http://$SOURCESVR/service/rest/v1/search?repository=$repoName | jq --raw-output '.items[].assets[].path' > artipath-list.txt
+curl -u "admin:parch2017%!" -X GET http://$SOURCESVR/service/rest/v1/search?repository=$repoName | jq --raw-output '.items[].assets[].path' > artipath-list.txt
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval 'XYZ=($(cat nexus-repolist.txt))'
+IFS=$'\r\n' GLOBIGNORE='*' command eval 'XYZ=($(cat skp-nexus-repolist.txt))'
 
 
 
@@ -42,7 +40,7 @@ IFS=$'\r\n' GLOBIGNORE='*' command eval 'XYZ=($(cat nexus-repolist.txt))'
 ##################
 while read line
 do
-    curl -O -X GET http://$TARGETSVR/repository/$repoName/$ARTIPATH
+    curl -O -X GET -u "admin:parch2017%!" http://$TARGETSVR/repository/$repoName/$ARTIPATH
 
 done < artipath-list.txt
 

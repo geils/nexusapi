@@ -17,6 +17,12 @@ set -x
 
 for item in ${arrlist[*]}
 do
-    curl -v --upload-file $item http://nexus.company.com/repository/3rd-party/${pathlist[$(($i))]}
-    i=$(expr $i + 1)      
+    if [[ $item == ${pathlist[$(($i))]##*/} ]]; then
+        echo -e "### TARGET FILE AND PATHFILE IS MATCHED ! ###"
+        curl -v -u "admin:parch2017%!" --upload-file $item http://nexus.skplanet.com/repository/skp-3rd-party/${pathlist[$(($i))]}
+        i=$(expr $i + 1)
+    else
+       echo -e "### [ERROR] FILE NOT MATCHED ! PLEASE CHECK FILE LIST ###"
+       exit 0
+    fi
 done

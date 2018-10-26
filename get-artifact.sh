@@ -1,9 +1,14 @@
 #!/bin/bash
 
-ARTILIST=$1
+DIRNAME=$1
+ARRLIST="../$2"
+
+cd $1
 
 while read line
 do
     curl -O -X GET "$line"
 
-done < $1
+done < $ARRLIST
+
+cd ../
