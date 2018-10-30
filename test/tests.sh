@@ -3,7 +3,9 @@
 #TEXTA="http://nexus.skplanet.com/repository/skp-3rd-party/com/skplanet/userinfra/spring/2.0.8/spring-2.0.8.pom.sha1"
 #echo ${TEXTA##*/}
 
-#set -x
+### $1 = file list
+### $2 = path list (full path) / 1 file name($line) loop >> all pathfile lines
+
 IFS=$'\r\n' GLOBIGNORE='*' command eval 'filelist=($(cat $1))'
 PATHLIST=$2
 i=0

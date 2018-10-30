@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 DIRNAME=$1
 ARRLIST="../$2"
 

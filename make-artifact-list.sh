@@ -4,7 +4,7 @@
 # $2 = group // temporary as $1
 
 SSVR="172.19.107.18:8081"
-REPO="thirdparty"
+REPO="releases"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -12,15 +12,18 @@ NC='\033[0m'
 
 onepass_dn () {
 
-    set -x
+    set -ex
     ### MAKE DIRECTORY
     mkdir $REPO-$1
     
     ### READY TO ARTIFACT DOWNLOAD / MAKE DOWNLOADURL LIST FILE
     curl -X GET "http://$SSVR/service/rest/v1/search?repository=$REPO&group=$1" | jq --raw-output '.items[].assets[].downloadUrl' | sort > downloadUrl.txt
 
+    ### LIST SORT
+    sort downloadUrl.txt > downloadUrl-s.txt
+
     ### DOWNLOAD ARTIFACTS
-    ./get-artifact.sh $REPO-$1 downloadUrl.txt
+    ./get-artifact.sh $REPO-$1 downloadUrl-s.txt
     #(cd $1-$2 && ./get-artifact.sh downloadUrl.txt)
 
     ### MOVE ARTIFACTS TO GROUP DIRECTORY
@@ -29,8 +32,11 @@ onepass_dn () {
     ### GET SORTED ARTIFACT PATHLIST FOR UPLOAD
     curl -X GET "http://$SSVR/service/rest/v1/search?repository=$REPO&group=$1" | jq --raw-output '.items[].assets[].path' | sort > pathlist.txt
 
+    ### LIST SORT
+    sort pathlist.txt > pathlist-s.txt
+
     ### DEPLOY ARTIFACTS TO TARGET SERVER
-    ./deploy-artifact.sh $REPO-$1 pathlist.txt
+    ./deploy-artifact.sh $REPO-$1 pathlist-s.txt
 
     ### REMOVE TEXT FILES
     rm *.txt
@@ -38,11 +44,13 @@ onepass_dn () {
     ### REMOVE COMPLETED ARTIFACTS DIRECTORY
     rm -rf $REPO-$1
 
+    echo -e "${GREEN}### PROCESS COMPLETED ###${NC}"
+
 }
 
 pageread_dn () {
 
-    set -x
+    set -ex
     ### MAKE DIRECTORY
     mkdir $REPO-$1
         
@@ -88,7 +96,10 @@ pageread_dn () {
 
     ### REMOVE COMPLETED ARTIFACTS DIRECTORY
     rm -rf $REPO-$1
-    
+  
+
+    echo -e "${GREEN}### PROCESS COMPLETED ###${NC}"
+  
 }
 
 
@@ -102,6 +113,3 @@ else
     echo -e "##### REMAIN PAGE IS EXISTS. WILL GET NEXT PAGE INFO."
     pageread_dn $1        
 fi
-
-
-echo -e "${GREEN}### PROCESS COMPLETED ###${NC}"

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 set -x
-# fixed repo : thirdparty
+# fixed repo : releases
 
 #curl -X GET "http://172.19.107.18:8081/service/rest/v1/search?repository=thirdparty&group=$1"
 
 SSVR="172.19.107.18"
-REPO="thirdparty"
+REPO="releases"
 
 
     CONTOKEN=`curl -X GET "http://$SSVR:8081/service/rest/v1/search?repository=$REPO&group=$1" | jq --raw-output '.continuationToken'`
