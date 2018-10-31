@@ -19,7 +19,7 @@ done < $PATHLIST
 #do
 #    if [[ $item == ${pathlist[$(($i))]##*/} ]]; then
 #        echo -e "### TARGET FILE AND PATHFILE IS MATCHED ! ###"
-#        curl -v -u "admin:parch2017%!" --upload-file $item http://nexus.skplanet.com/repository/skp-releases/${pathlist[$(($i))]}
+#        curl -v --upload-file $item http://nexus.skplanet.com/repository/skp-releases/${pathlist[$(($i))]}
 #        i=$(expr $i + 1)
 #    else
 #       echo -e "### [ERROR] FILE NOT MATCHED ! PLEASE CHECK FILE LIST ###"
