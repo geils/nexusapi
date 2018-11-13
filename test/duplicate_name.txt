@@ -1,3 +1,0 @@
-com/skp/fds/ocbfds-client/0.9.0/ocbfds-client-0.9.0.jar
-com/skp/fds/ocbfds-client/0.9.0/ocbfds-client-0.9.0.jar.md5
-com/skp/fds/ocbfds-client/0.9.0/ocbfds-client-0.9.0.jar.sha1
